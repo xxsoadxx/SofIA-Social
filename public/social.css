@@ -1,0 +1,168 @@
+.ibox {
+    clear: both;
+}
+
+.tweets {
+        background-color: #FFF;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        height: -webkit-calc(100vh - 20px);
+        height: -moz-calc(100vh - 20px);
+        height: calc(100vh - 20px);
+}
+
+.stats{
+    background-color: #FFF;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: -webkit-calc(100vh - 20px);
+    height: -moz-calc(100vh - 20px);
+    height: calc(100vh - 20px);
+}
+.search{
+    background-color: #FFF;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: -webkit-calc(100vh - 20px);
+    height: -moz-calc(100vh - 20px);
+    height: calc(100vh - 20px);
+}
+
+.ibox-title {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ffffff;
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 2px 0 0;
+    color: inherit;
+    margin-bottom: 0;
+    padding: 15px 15px 7px;
+    min-height: 48px;
+}
+
+.ibox-content {
+  clear: both;
+}
+.ibox-heading {
+  background-color: #f3f6fb;
+  border-bottom: none;
+}
+.ibox-heading h3 {
+  font-weight: 200;
+  font-size: 24px;
+}
+.ibox-title h5 {
+  display: inline-block;
+  font-size: 14px;
+  margin: 0 0 7px;
+  padding: 0;
+  text-overflow: ellipsis;
+  float: left;
+  font-weight: 600;
+}
+.ibox-title .label {
+  float: left;
+  margin-left: 4px;
+}
+.ibox-tools {
+  display: block;
+  float: none;
+  margin-top: 0;
+  position: relative;
+  padding: 0;
+  text-align: right;
+}
+.ibox-tools a {
+  cursor: pointer;
+  margin-left: 5px;
+  color: #c4c4c4;
+}
+.ibox-tools a.btn-primary {
+  color: #fff;
+}
+.ibox-tools .dropdown-menu > li > a {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+.ibox .ibox-tools.open > .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.tw-status{
+    font-size: 19px;
+    
+    float:right;
+}
+
+.retweet{
+color: #2675ff;
+}
+
+.favs {
+color: #e11616;
+}
+
+.positivo{
+width: 100px;
+height: 100px;
+background-color: #3FA220;
+border-radius: 100px;
+display: inline-block;
+}
+
+.negativo {
+    width: 100px;
+height: 100px;
+background-color: #e11616;
+border-radius: 100px;
+display: inline-block;
+}
+
+.contentdiv{
+    width: 204px;
+    margin: auto;
+}
+
+.stattitle{
+    text-align: center;
+}
+
+.caja{
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+}
+
+.Positivo {
+ border-top-left-radius: 15px !important;
+ border-bottom-left-radius: 12px !important;
+ border-left: 7px solid #2ae02a;
+}
+.Negativo{
+ border-left: 7px solid red;
+ border-top-left-radius: 15px !important;
+ border-bottom-left-radius: 12px !important;
+}
+
+.pullgraph {
+    width: 100%;
+    height: 9px;
+    display: inline-block;
+}
+
+.dwrapper{
+    text-align:center;
+    font-size:0;
+}
+
+.dwrapper>div{
+    display:inline-block;
+    text-align:left;
+    vertical-align:top;
+}

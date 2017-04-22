@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta name="viewport" content="initial-scale=1"/>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	   <link href="social.css" rel="stylesheet">
+	  <title>Asistente Virtual</title>
+	  <style>
+			.container {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+			.sidemenu{
+				    background-color: #dd49ef;
+					width: 77px;
+					height: 100%;
+					display: block;
+					position: absolute;
+					z-index: 3;
+					left: 0px;
+			}
+			.header {
+				background-color: #FFF;
+				height: 80px;
+				width: 100%;
+				display: inline-block;
+				position: absolute;
+				float: right;
+				right: 0;
+				z-index: 2;
+			}
+			.content{
+					position: absolute;
+					width: calc(100% - 80px);
+					height: calc(100% - 111px);
+					top: 80px;
+					left: 77px;
+			}
+			.buscar{
+				    border-radius: 34px;
+					border-color: #ca5bcc;
+					border-style: double;
+					height: 34px;
+					width: 312px;
+					padding-left: 12px;
+			}
+			.buscarcontainer{
+				    right: 55px;
+					display: inline-block;
+					position: absolute;
+					top: 22px;
+			}
+			.sideMenuList{
+				margin-top:105px;
+				left: 0px;
+				padding: 0;
+			}
+			.imgSideMenu{
+				width:50px;
+				display: block;
+				margin: 0 auto;
+			}
+			.list{
+				list-style-type:none;
+			
+				padding:7px;
+				height:64px;
+			}
+			.highlight { 
+				background-color: #c041d0;
+			}
+			.highlight_stay {
+				background-color: #c041d0;
+			}
+			.imgContainer {
+				left: 120px;
+				position: absolute;
+				width: 100px;
+				margin-top: 5px;
+			}
+			.imgLogo{
+				width:70px;
+			}
+			.scroll2 {
+				overflow: scroll;
+				overflow-y: scroll;
+				overflow-x: hidden;
+				
+			}
+			.scroll {
+				overflow: auto;
+				height:100%;
+			}
+			.buttonTweet {
+			    background-color: #dd49ef;
+				padding: 5px;
+				color: #FFF;
+				border-style: double;
+				border-color: #dd49ef;
+				margin-left: 15px;
+				border-radius: 5px;
+				font-size: 12px;
+				height: 34px;
+			}
+			.title {
+				width: 300px;
+				position: absolute;
+				top: -5px;
+				margin-left: 77px;
+				color: #bdbdbd;
+			}
+	  </style>
+	</head>
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<div class="container">
+			<div  class="sidemenu">
+				<ul class="sideMenuList">
+					<li class="list"> <img class="imgSideMenu" ng-src="./img/twitter.png"> </li>
+					<li class="list"> <img class="imgSideMenu" ng-src="./img/users.png"> </li>
+					<li class="list"> <img class="imgSideMenu" ng-src="./img/metrics.png"> </li>
+				</ul>
+			</div>
+			<div  class="header">
+				<div class="imgContainer">
+					<img class="imgLogo" ng-src="./img/logo.png" />
+					<h1 class="title">Redes Sociales</h1>
+				</div>
+				<div class="buscarcontainer">
+					<input id="buscador" class="buscar" ng-model="formdata.buscador" placeholder="Buscador" />
+					<button class="buttonTweet">Twittear</button>
+				</div>
+			</div>
+			<div class="content">
+				<div class="row" style="height:100%;margin:0" >
+					<div class="col-lg-6 " style="height:calc(100vh - 80px)">
+						<div class="ibox float-e-margins tweets" style="height: calc(100vh - 100px);">
+							<div class="ibox-title" style="border-color:transparent">
+								<h5>Mi Reputación</h5>
+								<div>
+									
+								</div>
+							</div>
+							<div style="height: calc(100% - 80px);">
+								<ul id="contenido" class="list-group">
+									 <li class="list-group-item" >
+										<p class="col-lg-12" style="padding-left:0px">
+											Total de Tweets: {{twittsData.length}}
+										</p>
+										<p class="col-lg-12" style="padding-left:0px">
+											Recibidos en el día: {{dia}}
+										</p>
+										<p class="col-lg-6" style="text-align:left; padding-left:0px;">
+											<b>Negativos: {{negativos}}</b>
+										</p>
+										<p class="col-lg-6" style="text-align:right; padding-left:0px;">
+											<b>Positivos: {{positivos}}</b>
+										</p>
+										<div class="dwrapper">
+											<div class="pullgraph" ng-style="myStyle1">
+											</div>
+											<div class="pullgraph" ng-style="myStyle2">
+											</div>
+										</div>
+									</li>
+								</ul>
+								<ul id="contenido" class="list-group" style="overflow: auto;height: calc(100% - 100px);">
+									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in twittsData | orderBy : 'created_at':true">
+										<div class="tw-status">
+											<i ng-if="twitt.impacto === 3" class="fa fa-thermometer-full " style="color: red;" aria-hidden="true"></i>
+											<i ng-if="twitt.impacto === 2" class="fa fa-thermometer-half " style="color: #c6a92b;" aria-hidden="true"></i>
+											<i ng-if="twitt.impacto === 1" class="fa fa-thermometer-empty " style="color: #30b300;" aria-hidden="true"></i>
+										</div>
+										<p>
+											<a href="http://twitter.com/{{twitt.user.screen_name}}/status/{{twitt.id_str}}" >
+												<img style="border-radius:30px" src="{{twitt.user.profile_image_url}}">
+											</a>
+											<a class="text-info" href="#">@{{twitt.user.screen_name}}</a>
+											{{twitt.text}}
+										</p>
+										<small class="block text-muted"><i class="fa fa-clock-o"></i> {{parseTwitterDate(twitt.created_at)}} </small>
+										<small ng-if="twitt.exist === 'N'" class="block text-muted"> - tweet eliminado </small>
+										<div class="tw-status">
+											<div>
+											
+											</div>
+											<i ng-if="twitt.favorite_count <= 0" class="fa fa-heart" aria-hidden="true"></i>
+											<i ng-if="twitt.favorite_count > 0" class="fa fa-heart favs" aria-hidden="true"></i>&nbsp; {{twitt.favorite_count}}
+											<i ng-if="twitt.retweet_count <= 0" class="fa fa-retweet" aria-hidden="true"></i>                            
+											<i ng-if="twitt.retweet_count > 0" class="fa fa-retweet retweet" aria-hidden="true"></i>&nbsp; {{twitt.retweet_count}}
+										</div>
+									</li>
+									
+								</ul>
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 " style="height:calc(100vh - 80px)">
+						<div class="ibox float-e-margins tweets">
+							<div class="ibox-title" style="border-color:transparent">
+								<h5>Resultados de búsqueda</h5>
+								
+							</div>
+							<div style="height: calc(100% - 80px)">
+								<ul id="contenido" class="list-group">
+									 <li class="list-group-item" >
+										<p class="col-lg-12" style="padding-left:0px">
+											Total de Tweets: {{tweetsSearch.length}}
+										</p>
+										<p class="col-lg-12" style="padding-left:0px">
+											Recibidos en el día: {{diaSearch}}
+										</p>
+										<p class="col-lg-6" style="text-align:left; padding-left:0px;">
+											<b>Negativos: {{negativoSearch}}</b>
+										</p>
+										<p class="col-lg-6" style="text-align:right; padding-left:0px;">
+											<b>Positivos: {{positivoSearch}}</b>
+										</p>
+										<div class="dwrapper">
+											<div class="pullgraph" ng-style="myStyle1Search">
+											</div>
+											<div class="pullgraph" ng-style="myStyle2Search">
+											</div>
+										</div>
+									</li>
+									<div class="scroll">
+									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in tweetsSearch | orderBy : 'created_at':true">
+										<div class="tw-status">
+											<i ng-if="twitt.impacto === 3" class="fa fa-thermometer-full " style="color: red;" aria-hidden="true"></i>
+											<i ng-if="twitt.impacto === 2" class="fa fa-thermometer-half " style="color: #c6a92b;" aria-hidden="true"></i>
+											<i ng-if="twitt.impacto === 1" class="fa fa-thermometer-empty " style="color: #30b300;" aria-hidden="true"></i>
+										</div>
+										<p>
+											<a href="http://twitter.com/{{twitt.user.screen_name}}/status/{{twitt.id_str}}" >
+												<img style="border-radius:30px" src="{{twitt.user.profile_image_url}}">
+											</a>
+											<a class="text-info" href="#">@{{twitt.user.screen_name}}</a>
+											{{twitt.text}}
+										</p>
+										<small class="block text-muted"><i class="fa fa-clock-o"></i> {{parseTwitterDate(twitt.created_at)}} </small>
+										<small ng-if="twitt.exist === 'N'" class="block text-muted"> - tweet eliminado </small>
+										<div class="tw-status">
+											<div>
+											
+											</div>
+											<i ng-if="twitt.favorite_count <= 0" class="fa fa-heart" aria-hidden="true"></i>
+											<i ng-if="twitt.favorite_count > 0" class="fa fa-heart favs" aria-hidden="true"></i>&nbsp; {{twitt.favorite_count}}
+											<i ng-if="twitt.retweet_count <= 0" class="fa fa-retweet" aria-hidden="true"></i>                            
+											<i ng-if="twitt.retweet_count > 0" class="fa fa-retweet retweet" aria-hidden="true"></i>&nbsp; {{twitt.retweet_count}}
+										</div>
+									</li>
+									</div>
+								</ul>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+
+		$(function(){
+			 $('li.list').hover(function(){
+				  $(this).addClass('highlight');
+			  }, function(){
+				  $(this).removeClass('highlight');
+			  });
+
+			  $('li.list').click(function(){
+				   $(this).addClass('highlight_stay');
+			  });
+		});
+
+		$('li.list').click(function(){
+			 $('li.list').removeClass('highlight_stay');
+			 $(this).addClass('highlight_stay');
+		});
+			  console.log("Arranca");
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', function($scope,$http) {
+				    console.log("Controller");
+
+					
+					$http({
+						method: 'GET',
+						url: 'http://localhost:3000/getData'
+					}).then(function successCallback(response) {;
+					console.log("volvio");
+			
+							$scope.twittsData = response.data;
+							$scope.negativos = 0;
+							$scope.positivos = 0;
+							$scope.dia = 0;
+							for (var i = 0; i < $scope.twittsData.length; i++){
+					   
+								var system_date = new Date(Date.parse($scope.twittsData[i].created_at));
+								if (K.ie) {
+									system_date = Date.parse($scope.twittsData[i].created_at.replace(/( \+)/, ' UTC$1'))
+								}
+								var Today = new Date();
+								if(system_date.toDateString() === Today.toDateString()){
+									$scope.dia++;
+								}
+								if($scope.twittsData[i].label === "Positivo"){
+									$scope.positivos++;
+								}else{
+									if($scope.twittsData[i].label === "Negativo"){
+										$scope.negativos++;
+									}
+								}
+							   
+								if($scope.twittsData[i].user.followers_count >= 0 && $scope.twittsData[i].user.followers_count <= 10){
+									$scope.twittsData[i].impacto = 1;
+								}else if($scope.twittsData[i].user.followers_count >= 11 && $scope.twittsData[i].user.followers_count <= 20){
+									$scope.twittsData[i].impacto = 2;
+								}else if($scope.twittsData[i].user.followers_count > 21){
+									$scope.twittsData[i].impacto = 3;
+								}
+								
+								//$scope.twittsData[i].label
+								//$scope.twittsData[i].user.followers_count
+								//$scope.twittsData[i].user.favorite_count
+								//$scope.twittsData[i].user.retweet_count
+								
+							}
+							$scope.graficaPos = ($scope.positivos * 100) / $scope.twittsData.length;
+							$scope.graficaNeg = ($scope.negativos * 100) / $scope.twittsData.length;
+							$scope.myStyle1 = {'background-color':'red','width': $scope.graficaNeg.toString()+'%'}
+							$scope.myStyle2 = {'background-color':'green','width': $scope.graficaPos.toString()+'%'}
+							
+					}, function errorCallback(response) {
+
+					});
+					$scope.tweetsSearch=[]
+					
+					var socket = io.connect('http://localhost:3000');
+					socket.on('twittsearch', function (data) {
+						
+						if(data.user.followers_count >= 0 && data.user.followers_count <= 10){
+							data.impacto = 1;
+						}else if(data.user.followers_count >= 11 && data.user.followers_count <= 20){
+							data.impacto = 2;
+						}else if(data.user.followers_count > 21){
+							data.impacto = 3;
+						}
+						$scope.tweetsSearch.push(data);
+						//console.log(JSON.stringify($scope.tweetsSearch));
+						if(data.label === "Positivo"){
+							positivoSearch++;
+							
+						}else{
+							if(data.label === "Negativo"){
+								negativoSearch++;
+								console.log('negativo sumo ',negativoSearch)
+								
+							}
+						}
+
+						var system_date = new Date(Date.parse(data.created_at));
+						if (K.ie) {
+							system_date = Date.parse(data.created_at.replace(/( \+)/, ' UTC$1'))
+						}
+						var Today = new Date();
+						if(system_date.toDateString() === Today.toDateString()){
+							diaSearch++;
+						}
+						
+						
+						
+						$scope.negativoSearch=negativoSearch
+						$scope.positivoSearch=positivoSearch
+						$scope.diaSearch=diaSearch
+						
+						$scope.graficaPosSearch = ($scope.positivoSearch * 100) / $scope.tweetsSearch.length;
+						$scope.graficaNegSearch = ($scope.negativoSearch * 100) / $scope.tweetsSearch.length;
+						$scope.myStyle1Search = {'background-color':'red','width': $scope.graficaNegSearch.toString()+'%'}
+						$scope.myStyle2Search = {'background-color':'green','width': $scope.graficaPosSearch.toString()+'%'}
+				   
+						
+						
+						$scope.$apply();
+					});
+
+					socket.on('twitt', function (data) {
+						console.log("twitt");
+						if(data.user.followers_count >= 0 && data.user.followers_count <= 10){
+							data.impacto = 1;
+						}else if(data.user.followers_count >= 11 && data.user.followers_count <= 20){
+							data.impacto = 2;
+						}else if(data.user.followers_count > 21){
+							data.impacto = 3;
+						}
+						$scope.twittsData.push(data);
+						console.log(JSON.stringify($scope.twittsData));
+						if(data.label === "Positivo"){
+							$scope.positivos++;
+						}else{
+							if(data.label === "Negativo"){
+								$scope.negativos++;
+							}
+						}
+						
+
+						var system_date = new Date(Date.parse(data.created_at));
+						if (K.ie) {
+							system_date = Date.parse(data.created_at.replace(/( \+)/, ' UTC$1'))
+						}
+						var Today = new Date();
+						if(system_date.toDateString() === Today.toDateString()){
+							$scope.dia++;
+						}
+						
+						
+						
+
+						$scope.graficaPos = ($scope.positivos * 100) / $scope.twittsData.length;
+						$scope.graficaNeg = ($scope.negativos * 100) / $scope.twittsData.length;
+						$scope.myStyle1 = {'background-color':'red','width': $scope.graficaNeg.toString()+'%'}
+						$scope.myStyle2 = {'background-color':'green','width': $scope.graficaPos.toString()+'%'}
+				   
+						$scope.$apply();
+					});
+
+					$scope.parseTwitterDate = function(tdate) {
+						var system_date = new Date(Date.parse(tdate));
+						var user_date = new Date();
+						if (K.ie) {
+							system_date = Date.parse(tdate.replace(/( \+)/, ' UTC$1'))
+						}
+						var diff = Math.floor((user_date - system_date) / 1000);
+						if (diff <= 1) {return "ahora";}
+						if (diff < 20) {return "hace "+ diff + " segundos";}
+						if (diff < 40) {return "hace medio minuto";}
+						if (diff < 60) {return "menos de un minuto";}
+						if (diff <= 90) {return "hace un minuto";}
+						if (diff <= 3540) {return "hace " + Math.round(diff / 60) + " minutos";}
+						if (diff <= 5400) {return "hace 1 hora";}
+						if (diff <= 86400) {return "hace " + Math.round(diff / 3600) + " horas";}
+						if (diff <= 129600) {return "hace 1 día";}
+						if (diff < 604800) {return "hace " + Math.round(diff / 86400) + " días";}
+						if (diff <= 777600) {return "hace 1 semana";}
+						return "on " + system_date;
+					}
+							
+					$("#buscador").keyup(function(event){
+						if(event.keyCode == 13){
+							$scope.search()
+						}
+					});
+					var negativoSearch = 0;
+					var positivoSearch = 0;
+					var diaSearch = 0;
+					$scope.search = function(){
+						negativoSearch = 0;
+						positivoSearch = 0;
+						diaSearch = 0;
+						$http({
+							method: 'POST',
+							url: 'http://localhost:3000/search',
+							data: {texto:$scope.formdata.buscador}
+						}).then(function successCallback(response) {
+							$scope.formdata = [];
+							//$scope.tweetsSearch = response;
+						
+							
+							/*for (var i = 0; i < $scope.tweetsSearch.length; i++){
+					   
+								var system_date = new Date(Date.parse($scope.tweetsSearch[i].created_at));
+								if (K.ie) {
+									system_date = Date.parse($scope.tweetsSearch[i].created_at.replace(/( \+)/, ' UTC$1'))
+								}
+								var Today = new Date();
+								if(system_date.toDateString() === Today.toDateString()){
+									$scope.diaSearch++;
+								}
+								if($scope.tweetsSearch[i].label === "Positivo"){
+									$scope.positivoSearch++;
+								}else{
+									if($scope.tweetsSearch[i].label === "Negativo"){
+										$scope.negativoSearch++;
+									}
+								}
+							   
+								if($scope.tweetsSearch[i].user.followers_count >= 0 && $scope.tweetsSearch[i].user.followers_count <= 100){
+									$scope.tweetsSearch[i].impacto = 1;
+								}else if($scope.tweetsSearch[i].user.followers_count >= 101 && $scope.tweetsSearch[i].user.followers_count <= 200){
+									$scope.tweetsSearch[i].impacto = 2;
+								}else if($scope.tweetsSearch[i].user.followers_count > 200){
+									$scope.tweetsSearch[i].impacto = 3;
+								}
+								
+								//$scope.twittsData[i].label
+								//$scope.twittsData[i].user.followers_count
+								//$scope.twittsData[i].user.favorite_count
+								//$scope.twittsData[i].user.retweet_count
+								
+							}
+							$scope.graficaPosSearch = ($scope.positivoSearch * 100) / $scope.tweetsSearch.length;
+							$scope.graficaNegSearch = ($scope.negativoSearch * 100) / $scope.tweetsSearch.length;
+							$scope.myStyle1Search = {'background-color':'red','width': $scope.graficaNegSearch.toString()+'%'}
+							$scope.myStyle2Search = {'background-color':'green','width': $scope.graficaPosSearch.toString()+'%'}*/
+						})
+						
+					}
+
+			});
+			
+			var K = function () {
+				var a = navigator.userAgent;
+				return {
+					ie: a.match(/MSIE\s([^;]*)/)
+				}
+			}();
+		</script>
+	</body>
+</html>
+
+
+
