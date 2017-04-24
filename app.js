@@ -116,11 +116,15 @@ app.post('/search', function(req, res) {
 					if (err) {
 						return console.error('failed:', err);
 					}
-					
-					var MonkeyData = body.result[0];
-					console.log('Send successful!  Server responded with:'+ MonkeyData[0]);
-					tweet.probability = MonkeyData[0].probability;
-					tweet.label = MonkeyData[0].label;
+					if(body.result.length > 0){
+						var MonkeyData = body.result[0];
+						console.log('Send successful!  Server responded with:'+ MonkeyData[0]);
+						tweet.probability = MonkeyData[0].probability;
+						tweet.label = MonkeyData[0].label;
+					}else{
+						tweet.probability = 0;
+						tweet.label = "NotAnalized";
+					}
 					isDone=true
 					
 				});
