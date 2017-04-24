@@ -207,11 +207,11 @@
 									</li>
 								</ul>
 								<ul id="contenido" class="list-group" style="overflow: auto;height: calc(100% - 140px);">
-									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in twittsData | orderBy : 'created_at':true">
+									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in twittsData | orderBy : 'created_at'">
 										<div class="tw-status">
-											<i ng-if="twitt.impacto === 3" class="fa fa-thermometer-full " style="color: #f44336" aria-hidden="true"></i>
-											<i ng-if="twitt.impacto === 2" class="fa fa-thermometer-half " style="color: #c6a92b;" aria-hidden="true"></i>
-											<i ng-if="twitt.impacto === 1" class="fa fa-thermometer-empty " style="color: #30b300;" aria-hidden="true"></i>
+											<span style="font-size: 13px;" ng-if="twitt.impacto === 3" ><i class="fa fa-thermometer-full " style="color: #f44336" aria-hidden="true"></i>&nbsp;Impacto alto</span>
+											<span style="font-size: 13px;" ng-if="twitt.impacto === 2" ><i class="fa fa-thermometer-half " style="color: #c6a92b;" aria-hidden="true"></i>&nbsp;Impacto medio</span>
+											<span style="font-size: 13px;" ng-if="twitt.impacto === 1" ><i class="fa fa-thermometer-empty " style="color: #30b300;" aria-hidden="true"></i>&nbsp;Impacto bajo</span>
 										</div>
 										<p>
 											<a href="http://twitter.com/{{twitt.user.screen_name}}/status/{{twitt.id_str}}" >
@@ -226,10 +226,9 @@
 											<div>
 											
 											</div>
-											<i ng-if="twitt.favorite_count <= 0" class="fa fa-heart" aria-hidden="true"></i>
-											<i ng-if="twitt.favorite_count > 0" class="fa fa-heart favs" aria-hidden="true"></i>&nbsp; {{twitt.favorite_count}}
-											<i ng-if="twitt.retweet_count <= 0" class="fa fa-retweet" aria-hidden="true"></i>                            
-											<i ng-if="twitt.retweet_count > 0" class="fa fa-retweet retweet" aria-hidden="true"></i>&nbsp; {{twitt.retweet_count}}
+											<span ng-if="twitt.favorite_count > 0" ><i class="fa fa-heart favs" aria-hidden="true"></i>&nbsp; {{twitt.favorite_count}}</span>
+											                           
+											<span ng-if="twitt.retweet_count > 0"><i  class="fa fa-retweet retweet" aria-hidden="true"></i>&nbsp; {{twitt.retweet_count}}</span>
 										</div>
 									</li>
 									
@@ -268,11 +267,11 @@
 									</li>
 								</ul>
 								<ul id="contenido" class="list-group" style="overflow: auto;height: calc(100% - 140px);">
-									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in tweetsSearch | orderBy : 'created_at':true">
+									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in tweetsSearch | orderBy : 'created_at'">
 										<div class="tw-status">
-											<i ng-if="twitt.impacto === 3" class="fa fa-thermometer-full " style="color: #f44336" aria-hidden="true"></i>
-											<i ng-if="twitt.impacto === 2" class="fa fa-thermometer-half " style="color: #c6a92b;" aria-hidden="true"></i>
-											<i ng-if="twitt.impacto === 1" class="fa fa-thermometer-empty " style="color: #30b300;" aria-hidden="true"></i>
+											<span style="font-size: 13px;" ng-if="twitt.impacto === 3" ><i class="fa fa-thermometer-full " style="color: #f44336" aria-hidden="true"></i>&nbsp;Impacto alto</span>
+											<span style="font-size: 13px;" ng-if="twitt.impacto === 2" ><i class="fa fa-thermometer-half " style="color: #c6a92b;" aria-hidden="true"></i>&nbsp;Impacto medio</span>
+											<span style="font-size: 13px;" ng-if="twitt.impacto === 1" ><i class="fa fa-thermometer-empty " style="color: #30b300;" aria-hidden="true"></i>&nbsp;Impacto bajo</span>
 										</div>
 										<p>
 											<a href="http://twitter.com/{{twitt.user.screen_name}}/status/{{twitt.id_str}}" >
@@ -287,10 +286,10 @@
 											<div>
 											
 											</div>
-											<i ng-if="twitt.favorite_count <= 0" class="fa fa-heart" aria-hidden="true"></i>
-											<i ng-if="twitt.favorite_count > 0" class="fa fa-heart favs" aria-hidden="true"></i>&nbsp; {{twitt.favorite_count}}
-											<i ng-if="twitt.retweet_count <= 0" class="fa fa-retweet" aria-hidden="true"></i>                            
-											<i ng-if="twitt.retweet_count > 0" class="fa fa-retweet retweet" aria-hidden="true"></i>&nbsp; {{twitt.retweet_count}}
+											
+											<span ng-if="twitt.favorite_count > 0" ><i class="fa fa-heart favs" aria-hidden="true"></i>&nbsp; {{twitt.favorite_count}}</span>
+											                           
+											<span ng-if="twitt.retweet_count > 0"><i  class="fa fa-retweet retweet" aria-hidden="true"></i>&nbsp; {{twitt.retweet_count}}</span>
 										</div>
 									</li>
 									
@@ -332,7 +331,7 @@
 					$scope.searchead = false;
 					$http({
 						method: 'GET',
-						url: 'http://localhost:3000/getData'
+						url: 'http://10.12.10.93:3000/getData'
 					}).then(function successCallback(response) {;
 					console.log("volvio");
 			
@@ -384,9 +383,9 @@
 					});
 					$scope.tweetsSearch=[]
 					
-					var socket = io.connect('http://localhost:3000');
+					var socket = io.connect('http://10.12.10.93:3000');
 					socket.on('twittsearch', function (data) {
-						
+						console.log();
 						if(data.user.followers_count >= 0 && data.user.followers_count <= 10){
 							data.impacto = 1;
 						}else if(data.user.followers_count >= 11 && data.user.followers_count <= 20){
@@ -401,9 +400,7 @@
 							
 						}else{
 							if(data.label === "Negativo"){
-								negativoSearch++;
-								console.log('negativo sumo ',negativoSearch)
-								
+								negativoSearch++;						
 							}
 						}
 
@@ -503,16 +500,18 @@
 					var positivoSearch = 0;
 					var diaSearch = 0;
 					$scope.search = function(){
+					    $scope.tweetsSearch = [];
 						negativoSearch = 0;
 						positivoSearch = 0;
 						diaSearch = 0;
 						$http({
 							method: 'POST',
-							url: 'http://localhost:3000/search',
+							url: 'http://10.12.10.93:3000/search',
 							data: {texto:$scope.formdata.buscador}
 						}).then(function successCallback(response) {
 							$scope.formdata = [];
 							$scope.searchead = true;
+							
 							//$scope.tweetsSearch = response;
 						
 							
