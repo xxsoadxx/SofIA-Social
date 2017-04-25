@@ -207,7 +207,7 @@
 									</li>
 								</ul>
 								<ul id="contenido" class="list-group" style="overflow: auto;height: calc(100% - 140px);">
-									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in twittsData | orderBy : 'created_at'">
+									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in twittsData | orderBy : '-created_at'">
 										<div class="tw-status">
 											<span style="font-size: 13px;" ng-if="twitt.impacto === 3" ><i class="fa fa-thermometer-full " style="color: #f44336" aria-hidden="true"></i>&nbsp;Impacto alto</span>
 											<span style="font-size: 13px;" ng-if="twitt.impacto === 2" ><i class="fa fa-thermometer-half " style="color: #c6a92b;" aria-hidden="true"></i>&nbsp;Impacto medio</span>
@@ -267,7 +267,7 @@
 									</li>
 								</ul>
 								<ul id="contenido" class="list-group" style="overflow: auto;height: calc(100% - 140px);">
-									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in tweetsSearch | orderBy : 'created_at'">
+									<li class="list-group-item {{twitt.label}}" ng-repeat="twitt in tweetsSearch | orderBy : '-created_at'">
 										<div class="tw-status">
 											<span style="font-size: 13px;" ng-if="twitt.impacto === 3" ><i class="fa fa-thermometer-full " style="color: #f44336" aria-hidden="true"></i>&nbsp;Impacto alto</span>
 											<span style="font-size: 13px;" ng-if="twitt.impacto === 2" ><i class="fa fa-thermometer-half " style="color: #c6a92b;" aria-hidden="true"></i>&nbsp;Impacto medio</span>
@@ -371,17 +371,19 @@
 								//$scope.twittsData[i].user.retweet_count
 								
 							}
+
+							if($scope.twittsData.length > 0){
 							$scope.graficaPos = ($scope.positivos * 100) / $scope.twittsData.length;
 							$scope.graficaNeg = ($scope.negativos * 100) / $scope.twittsData.length;
 							$scope.myStyle1 = {'background-color':'#f44336','width': $scope.graficaNeg.toString()+'%'}
 							$scope.myStyle2 = {'background-color':'#4caf50','width': $scope.graficaPos.toString()+'%'}
 							$scope.classmyStyle1 = ' progress-bar-danger progress-bar-striped';
 							$scope.classmyStyle2 = ' progress-bar-success progress-bar-striped';
-							
+							}
 					}, function errorCallback(response) {
 
 					});
-					$scope.tweetsSearch=[]
+					$scope.tweetsSearch=[];
 					
 					var socket = io.connect('http://10.12.10.93:3000');
 					socket.on('twittsearch', function (data) {
@@ -439,7 +441,7 @@
 						}else if(data.user.followers_count > 21){
 							data.impacto = 3;
 						}
-						$scope.twittsData.push(data);
+						$scope.twittsData.unshift(data);
 						console.log(JSON.stringify($scope.twittsData));
 						if(data.label === "Positivo"){
 							$scope.positivos++;
